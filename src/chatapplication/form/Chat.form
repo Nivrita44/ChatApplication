@@ -21,17 +21,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="ChatTitle" max="32767" attributes="0"/>
-          <Component id="chat_Body1" alignment="1" max="32767" attributes="0"/>
+          <Component id="chat_Body1" alignment="1" pref="778" max="32767" attributes="0"/>
           <Component id="chat_Bottom1" alignment="0" max="32767" attributes="0"/>
+          <Component id="chat_Title1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="ChatTitle" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-              <Component id="chat_Body1" pref="597" max="32767" attributes="0"/>
+              <Component id="chat_Title1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+              <Component id="chat_Body1" pref="601" max="32767" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="chat_Bottom1" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -39,26 +39,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="chatapplication.component.Chat_Title" name="ChatTitle">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="eb" green="eb" red="eb" type="rgb"/>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="778" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="47" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
     <Container class="chatapplication.component.Chat_Bottom" name="chat_Bottom1">
 
       <Layout>
@@ -75,6 +55,8 @@
       </Layout>
     </Container>
     <Component class="chatapplication.component.Chat_Body" name="chat_Body1">
+    </Component>
+    <Component class="chatapplication.component.Chat_Title" name="chat_Title1">
     </Component>
   </SubComponents>
 </Form>

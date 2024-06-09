@@ -3,21 +3,25 @@ package chatapplication.component;
 
 import chatapplication.swing.ScrollBar;
 import java.awt.Color;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import net.miginfocom.swing.MigLayout;
 
 
-public class Chat_Body extends javax.swing.JPanel {
+public final class Chat_Body extends javax.swing.JPanel {
 
     public Chat_Body() {
-        initComponents();
+       initComponents();
         init();
-        addItemRight("Send a text message to a group of contacts. Include photos, personalize your texts, and track who clicked your links.");
-        addItemRight("hello\nHi");
-        addItemLeft("Simpletext started as a passion project because I couldn’t find what I was looking for. Most apps were trying to do too much and ended up bloated with features I don’t need. So I built Simpletext based on a simple premise — what if there’s an app that refuses to do more, choosing instead to do just one thing, and do it well? For Simpletext, that one thing is writing.");
-        addItemLeft("hello\nerererew\newewe");
-        addItemRight("hello\nerererew\newewe");
-        addItemLeft("hello\nerererew\newewe");
-        addItemRight("hello\nerererew\newewe");
+        addItemRight("hello\nHi",new ImageIcon(getClass().getResource("/chatapplication/icon/testing/dog.jpg")));
+        addItemLeft("Simpletext started as a passion project because I couldn’t find what I was looking for. Most apps were trying to do too much and ended up bloated with features I don’t need. So I built Simpletext based on a simple premise — what if there’s an app that refuses to do more, choosing instead to do just one thing, and do it well? For Simpletext, that one thing is writing.", "Raven", new ImageIcon(getClass().getResource("/chatapplication/icon/testing/dog.jpg")), new ImageIcon(getClass().getResource("/chatapplication/icon/testing/dog.jpg")));
+        addDate("05/06/2021");
+        addItemLeft("hello\nerererew\newewe", "Dara");
+        
+        addItemLeft("Hello this is my friend", "Jonh", new ImageIcon(getClass().getResource("/chatapplication/icon/testing/dog.jpg")), new ImageIcon(getClass().getResource("/chatapplication/icon/testing/dog.jpg")));
+        addItemRight("Ok\nWhat is he name ?",new ImageIcon(getClass().getResource("/chatapplication/icon/testing/dog.jpg")));
+        addItemLeft("", "Ro", new ImageIcon(getClass().getResource("/chatapplication/icon/testing/dog.jpg")));
+
     }
      private void init() {
         body.setLayout(new MigLayout("fillx", "", "5[]5"));
@@ -25,22 +29,42 @@ public class Chat_Body extends javax.swing.JPanel {
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
      
-     public void addItemLeft(String text) {
-        Chat_Right item = new Chat_Right();
+     public void addItemLeft(String text,String user,Icon... image) {
+        Chat_Left_With_profile item = new Chat_Left_With_profile();
         item.setText(text);
+        item.setImage(image);
+        item.setTime();
+        item.setUserProfile(user);
         body.add(item, "wrap, w ::80%");
         body.repaint();
         body.revalidate();
     }
      
-      public void addItemRight(String text) {
+      public void addItemRight(String text,Icon... image) {
         Chat_Right item = new Chat_Right();
         item.setText(text);
+        item.setImage(image);
         body.add(item, "wrap, al right, w ::80%");
         body.repaint();
         body.revalidate();
     }
-   
+      public void addDate(String date) {
+        Chat_Date item = new Chat_Date();
+        item.setDate(date);
+        body.add(item, "wrap, al center");
+        body.repaint();
+        body.revalidate();
+    }
+    private Icon loadIcon(String path) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            System.out.println("Loaded image: " + imgURL.getPath());
+            return new ImageIcon(imgURL);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null; // or return a default icon if desired
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
