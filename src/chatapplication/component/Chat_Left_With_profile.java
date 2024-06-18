@@ -78,4 +78,8 @@ public class Chat_Left_With_profile extends javax.swing.JLayeredPane {
     private javax.swing.JLayeredPane jLayeredPane1;
     private chatapplication.component.Chat_Item txt;
     // End of variables declaration//GEN-END:variables
+
+    void setImage(String[] image) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
