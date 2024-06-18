@@ -29,6 +29,13 @@ public class Chat_Left_With_profile extends javax.swing.JLayeredPane {
     public void setImage(Icon... image) {
         txt.setImage(false, image);
     }
+    public void setImage(String... image) {
+        txt.setImage(false, image);
+    }
+    
+    public void setFile(String fileName, String fileSize) {
+        txt.setFile(fileName, fileSize);
+    }
     
     public void setTime() {
         txt.setTime("10:30 PM");  
@@ -79,7 +86,9 @@ public class Chat_Left_With_profile extends javax.swing.JLayeredPane {
     private chatapplication.component.Chat_Item txt;
     // End of variables declaration//GEN-END:variables
 
-    void setImage(String[] image) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
+
+   
+
+    
 }

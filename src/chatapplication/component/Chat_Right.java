@@ -24,6 +24,9 @@ public class Chat_Right extends javax.swing.JLayeredPane {
      public void setImage(String... image) {
         txt.setImage(false, image);
     }
+     public void setFile(String fileName, String fileSize) {
+        txt.setFile(fileName, fileSize);
+    }
     
     public void setTime() {
         txt.setTime("10:30 PM");  
@@ -58,4 +61,6 @@ public class Chat_Right extends javax.swing.JLayeredPane {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private chatapplication.component.Chat_Item txt;
     // End of variables declaration//GEN-END:variables
+
+  
 }
