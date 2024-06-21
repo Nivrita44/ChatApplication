@@ -118,9 +118,9 @@ public class P_Register extends javax.swing.JPanel {
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
          String userName = txtUser.getText().trim();
-         String password = String.valueOf(txtPass.getPassword());
-         String confirmPassword = String.valueOf(txtRePassword.getPassword());
-         if (userName.equals("")) {
+        String password = String.valueOf(txtPass.getPassword());
+        String confirmPassword = String.valueOf(txtRePassword.getPassword());
+        if (userName.equals("")) {
             txtUser.grabFocus();
         } else if (password.equals("")) {
             txtPass.grabFocus();
@@ -128,18 +128,16 @@ public class P_Register extends javax.swing.JPanel {
             txtPass.grabFocus();
         } else {
             Model_Register data = new Model_Register(userName, password);
-            PublicEvent.getInstance().getEventLogin().register(data,new EventMessage(){
+            PublicEvent.getInstance().getEventLogin().register(data, new EventMessage() {
                 @Override
                 public void callMessage(Model_Message message) {
-                 if(!message.isAction()){
-                     lbError.setText(message.getMessage());
-                 }else {
-                     PublicEvent.getInstance().getEventLogin().login();
-                 }
+                    if (!message.isAction()) {
+                        lbError.setText(message.getMessage());
+                    } else {
+                        PublicEvent.getInstance().getEventMain().initChat();
+                    }
                 }
-                
             });
-               
         }
     }//GEN-LAST:event_cmdRegisterActionPerformed
 

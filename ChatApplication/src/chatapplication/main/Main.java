@@ -6,6 +6,7 @@ import chatapplication.event.PublicEvent;
 import chatapplication.service.Service;
 import chatapplication.swing.ComponentResizer;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import io.socket.emitter.Emitter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.Icon;
@@ -18,9 +19,9 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         init();
-        
     }
-     private void init(){
+
+    private void init() {
         setIconImage(new ImageIcon(getClass().getResource("/chatapplication/icon/icon.png")).getImage());
         ComponentResizer com = new ComponentResizer();
         com.registerComponent(this);
@@ -31,9 +32,10 @@ public class Main extends javax.swing.JFrame {
         loading.setVisible(false);
         view_Image.setVisible(false);
         home.setVisible(false);
-        initEvent(); 
+        initEvent();
         Service.getInstance().startServer();
-        }
+    }
+
     private void initEvent() {
         PublicEvent.getInstance().addEventMain(new EventMain() {
             @Override
@@ -44,6 +46,8 @@ public class Main extends javax.swing.JFrame {
             @Override
             public void initChat() {
                 home.setVisible(true);
+                login.setVisible(false);
+                Service.getInstance().getClient().emit("list_user", Service.getInstance().getUser().getUserID());
             }
         });
         PublicEvent.getInstance().addEventImageView(new EventImageView() {

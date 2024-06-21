@@ -28,7 +28,7 @@
                   <Component id="txtUser" max="32767" attributes="0"/>
                   <Component id="jLabel1" max="32767" attributes="0"/>
                   <Component id="jLabel2" alignment="1" pref="238" max="32767" attributes="0"/>
-                  <Component id="lbPass" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtPass" alignment="0" max="32767" attributes="0"/>
                   <Component id="cmdLogin" alignment="0" max="32767" attributes="0"/>
                   <Component id="cmdRegister" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -48,7 +48,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" pref="24" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbPass" min="-2" max="-2" attributes="0"/>
+              <Component id="txtPass" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Component id="cmdLogin" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -83,7 +83,7 @@
         <Property name="text" type="java.lang.String" value="Password"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="lbPass">
+    <Component class="javax.swing.JPasswordField" name="txtPass">
     </Component>
     <Component class="javax.swing.JButton" name="cmdLogin">
       <Properties>
