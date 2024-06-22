@@ -1,21 +1,20 @@
 
 package chatapplication.component;
 
+import chatapplication.event.PublicEvent;
 import chatapplication.model.Model_User_Account;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
 public class Item_People extends javax.swing.JPanel {
-    
-    public Model_User_Account getUser(){
+
+    public Model_User_Account getUser() {
         return user;
     }
-
-   
+    private boolean mouseOver;
     private final Model_User_Account user;
-    
+
     public Item_People(Model_User_Account user) {
         this.user = user;
         initComponents();
@@ -23,24 +22,33 @@ public class Item_People extends javax.swing.JPanel {
         activeStatus.setActive(user.isStatus());
         init();
     }
-    public void updateStatus(){
+
+    public void updateStatus() {
         activeStatus.setActive(user.isStatus());
-        
     }
-    private void init(){
-        addMouseListener (new MouseAdapter(){
-                
+
+    private void init() {
+        addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
                 setBackground(new Color(230, 230, 230));
+                mouseOver = true;
             }
-            
+
+            @Override
             public void mouseExited(MouseEvent me) {
                 setBackground(new Color(242, 242, 242));
+                mouseOver = false;
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+                if (mouseOver) {
+                    PublicEvent.getInstance().getEventMain().selectUser(user);
+                }
             }
         });
     }
-
    
 
     @SuppressWarnings("unchecked")
@@ -69,7 +77,7 @@ public class Item_People extends javax.swing.JPanel {
 
         lbStatus.setFont(new java.awt.Font("SansSerif", 2, 12)); // NOI18N
         lbStatus.setForeground(new java.awt.Color(137, 137, 137));
-        lbStatus.setText("Name");
+        lbStatus.setText("New User");
         lbStatus.setMaximumSize(new java.awt.Dimension(36, 24));
         lbStatus.setMinimumSize(new java.awt.Dimension(36, 24));
         lbStatus.setPreferredSize(new java.awt.Dimension(36, 24));
@@ -84,12 +92,12 @@ public class Item_People extends javax.swing.JPanel {
                 .addComponent(imageAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)
+                        .addComponent(lbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)
                         .addComponent(activeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 104, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

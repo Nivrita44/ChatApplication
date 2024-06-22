@@ -1,6 +1,8 @@
 
 package chatapplication.component;
 
+import chatapplication.model.Model_Receive_Message;
+import chatapplication.model.Model_Send_Message;
 import chatapplication.swing.ScrollBar;
 import java.awt.Adjustable;
 import java.awt.Color;
@@ -15,36 +17,21 @@ public class Chat_Body extends javax.swing.JPanel {
     public Chat_Body() {
         initComponents();
         init();
-        //addItemRight("Send a text message to a group of contacts. Include photos, personalize your texts, and track who clicked your links.", new ImageIcon(getClass().getResource("/com/raven/icon/testing/cat.png")), new ImageIcon(getClass().getResource("/com/raven/icon/testing/pic.jpg")));
-//        addItemRight("hello\nHi");
-//        addItemLeft("Simpletext started as a passion project because I couldn’t find what I was looking for. Most apps were trying to do too much and ended up bloated with features I don’t need. So I built Simpletext based on a simple premise — what if there’s an app that refuses to do more, choosing instead to do just one thing, and do it well? For Simpletext, that one thing is writing.", "Raven", new ImageIcon(getClass().getResource("/com/raven/icon/testing/dog.jpg")), new ImageIcon(getClass().getResource("/com/raven/icon/testing/pic.jpg")));
-//        addDate("05/06/2021");
-//        String img[] = {"LRMj,K-:?G9G_JIon}WqD~ITRPs,", "LCGlO@00.R~o.9DOO[%L02?aJ7D*"};
-//        addItemLeft("hello\nerererew\newewe", "Dara", img);
-//        addItemRight("hello\nerererew\newewe", new ImageIcon(getClass().getResource("/com/raven/icon/testing/pic.jpg")));
-//        addItemLeft("Hello this is my friend", "Jonh", new ImageIcon(getClass().getResource("/com/raven/icon/testing/dog.jpg")), new ImageIcon(getClass().getResource("/com/raven/icon/testing/dog.jpg")));
-        addItemRight("Ok\nWhat is he name ?");
-//        addItemLeft("", "Ro", new ImageIcon(getClass().getResource("/com/raven/icon/testing/pic.jpg")));
-//        addItemFile("", "Dara", "my doc.pdf", "1 MB");
-//        addItemFileRight("", "myfile.rar", "15 MB");
     }
 
     private void init() {
-        body.setLayout(new MigLayout("fillx", "", "5[]5"));
+        body.setLayout(new MigLayout("fillx", "", "5[bottom]5"));
         sp.setVerticalScrollBar(new ScrollBar());
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
 
-    public void addItemLeft(String text, String user, Icon... image) {
-        Chat_Left_With_profile item = new Chat_Left_With_profile();
-        item.setText(text);
-        item.setImage(image);
+    public void addItemLeft(Model_Receive_Message data) {
+        Chat_Left item = new Chat_Left();
+        item.setText(data.getText());
         item.setTime();
-        item.setUserProfile(user);
         body.add(item, "wrap, w 100::80%");
-        //  ::80% set max with 80%
-        body.repaint();
-        body.revalidate();
+        repaint();
+        revalidate();
     }
 
     public void addItemLeft(String text, String user, String[] image) {
@@ -54,7 +41,6 @@ public class Chat_Body extends javax.swing.JPanel {
         item.setTime();
         item.setUserProfile(user);
         body.add(item, "wrap, w 100::80%");
-        //  ::80% set max with 80%
         body.repaint();
         body.revalidate();
     }
@@ -66,19 +52,16 @@ public class Chat_Body extends javax.swing.JPanel {
         item.setTime();
         item.setUserProfile(user);
         body.add(item, "wrap, w 100::80%");
-        //  ::80% set max with 80%
         body.repaint();
         body.revalidate();
     }
 
-    public void addItemRight(String text, Icon... image) {
+    public void addItemRight(Model_Send_Message data) {
         Chat_Right item = new Chat_Right();
-        item.setText(text);
-        item.setImage(image);
+        item.setText(data.getText());
         body.add(item, "wrap, al right, w 100::80%");
-        //  ::80% set max with 80%
-        body.repaint();
-        body.revalidate();
+        repaint();
+        revalidate();
         item.setTime();
         scrollToBottom();
     }
@@ -99,6 +82,12 @@ public class Chat_Body extends javax.swing.JPanel {
         body.add(item, "wrap, al center");
         body.repaint();
         body.revalidate();
+    }
+
+    public void clearChat() {
+        body.removeAll();
+        repaint();
+        revalidate();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

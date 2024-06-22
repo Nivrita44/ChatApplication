@@ -3,10 +3,10 @@ package chatapplication.main;
 import chatapplication.event.EventImageView;
 import chatapplication.event.EventMain;
 import chatapplication.event.PublicEvent;
+import chatapplication.model.Model_User_Account;
 import chatapplication.service.Service;
 import chatapplication.swing.ComponentResizer;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
-import io.socket.emitter.Emitter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.Icon;
@@ -15,7 +15,6 @@ import javax.swing.JFrame;
 
 
 public class Main extends javax.swing.JFrame {
-
     public Main() {
         initComponents();
         init();
@@ -49,6 +48,17 @@ public class Main extends javax.swing.JFrame {
                 login.setVisible(false);
                 Service.getInstance().getClient().emit("list_user", Service.getInstance().getUser().getUserID());
             }
+
+            @Override
+            public void selectUser(Model_User_Account user) {
+                home.setUser(user);
+            }
+
+            @Override
+            public void updateUser(Model_User_Account user) {
+                home.updateUser(user);
+            }
+
         });
         PublicEvent.getInstance().addEventImageView(new EventImageView() {
             @Override
