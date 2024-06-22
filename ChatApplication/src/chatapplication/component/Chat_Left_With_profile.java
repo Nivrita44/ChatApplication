@@ -29,11 +29,11 @@ public class Chat_Left_With_profile extends javax.swing.JLayeredPane {
     }
 
     public void setImage(Icon... image) {
-        txt.setImage(false, image);
+      //  txt.setImage(false, image);
     }
 
     public void setImage(String... image) {
-        txt.setImage(false, image);
+        //txt.setImage(false, image);
     }
 
     public void setFile(String fileName, String fileSize) {

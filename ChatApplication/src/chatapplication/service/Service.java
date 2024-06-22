@@ -1,10 +1,14 @@
 package chatapplication.service;
 import chatapplication.event.PublicEvent;
+import chatapplication.model.Model_File_Sender;
 import chatapplication.model.Model_Receive_Message;
+import chatapplication.model.Model_Send_Message;
 import chatapplication.model.Model_User_Account;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +20,7 @@ public class Service {
     private final int PORT_NUMBER = 9999;
     private final String IP= "localhost";
     private Model_User_Account user;
+    private List<Model_File_Sender> fileSender;
 
     public static Service getInstance() {
         if (instance == null) {
@@ -26,7 +31,7 @@ public class Service {
     }
 
     private Service() {
-        
+        fileSender  = new ArrayList<>();
     }
 
     public void startServer() {
@@ -73,6 +78,24 @@ public class Service {
         } catch (URISyntaxException e) {
            error(e);
         }     
+    }
+    
+    public Model_File_Sender addFile (File file,Model_Send_Message message) throws IOException{
+       Model_File_Sender data =  new Model_File_Sender(file,client,message);
+       message.setFile(data);
+       fileSender.add(data);
+       if(fileSender.size()==1){
+           data.initSend();
+       }
+       return data;
+    }
+    
+    public void fileSendFinish(Model_File_Sender data) throws IOException{
+        fileSender.remove(data);
+        if(!fileSender.isEmpty()){
+            fileSender.get(0).initSend();
+        }
+        
     }
      public Socket getClient() {
         return client;

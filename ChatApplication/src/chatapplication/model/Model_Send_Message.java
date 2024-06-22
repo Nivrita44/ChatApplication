@@ -38,6 +38,15 @@ public class Model_Send_Message {
     public void setText(String text) {
         this.text = text;
     }
+    
+    public Model_File_Sender getFile() {
+        return file;
+    }
+
+    public void setFile(Model_File_Sender file) {
+        this.file = file;
+    }
+
 
     public Model_Send_Message(MessageType messageType, int fromUserID, int toUserID, String text) {
         this.messageType = messageType;
@@ -53,7 +62,9 @@ public class Model_Send_Message {
     private int fromUserID;
     private int toUserID;
     private String text;
+    private Model_File_Sender file;
 
+    
     public JSONObject toJsonObject() {
         try {
             JSONObject json = new JSONObject();
@@ -61,6 +72,11 @@ public class Model_Send_Message {
             json.put("fromUserID", fromUserID);
             json.put("toUserID", toUserID);
             json.put("text", text);
+            if(messageType== MessageType.FILE || messageType == MessageType.IMAGE){
+                json.put("text", file.getFileExtensions());
+            }else {
+                json.put("text", text);
+            }
             return json;
         } catch (JSONException e) {
             return null;

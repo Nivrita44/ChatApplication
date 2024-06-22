@@ -1,5 +1,7 @@
 package chatapplication.component;
 
+import chatapplication.model.Model_File_Sender;
+import chatapplication.model.Model_Receive_Image;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
@@ -55,24 +57,23 @@ public class Chat_Item extends javax.swing.JLayeredPane {
         add(layer);
     }
 
-    public void setImage(boolean right, Icon... image) {
-        if (image.length > 0) {
+    public void setImage(boolean right, Model_File_Sender fileSender) {
             JLayeredPane layer = new JLayeredPane();
             layer.setLayout(new FlowLayout(right ? FlowLayout.RIGHT : FlowLayout.LEFT));
             layer.setBorder(new EmptyBorder(0, 5, 0, 5));
             Chat_Image chatImage = new Chat_Image(right);
-            chatImage.addImage(image);
+            chatImage.addImage(fileSender);
             layer.add(chatImage);
             add(layer);
-        }
+        
     }
 
-    public void setImage(boolean right, String... image) {
+    public void setImage(boolean right, Model_Receive_Image dataImage) {
         JLayeredPane layer = new JLayeredPane();
         layer.setLayout(new FlowLayout(right ? FlowLayout.RIGHT : FlowLayout.LEFT));
         layer.setBorder(new EmptyBorder(0, 5, 0, 5));
         Chat_Image chatImage = new Chat_Image(right);
-        chatImage.addImage(image);
+        chatImage.addImage(dataImage);
         layer.add(chatImage);
         add(layer);
     }
