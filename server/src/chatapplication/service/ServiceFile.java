@@ -3,6 +3,7 @@ import chatapplication.app.MessageType;
 import chatapplication.connection.DatabaseConnection;
 import chatapplication.model.Model_File;
 import chatapplication.model.Model_File_Receiver;
+import chatapplication.model.Model_File_Sender;
 import chatapplication.model.Model_Package_Sender;
 import chatapplication.model.Model_Receive_Image;
 import chatapplication.model.Model_Send_Message;
@@ -22,11 +23,12 @@ import javax.imageio.ImageIO;
 
 public class ServiceFile {
 
-    public ServiceFile() {
+      public ServiceFile() {
         this.con = DatabaseConnection.getInstance().getConnection();
         this.fileReceivers = new HashMap<>();
+        this.fileSenders = new HashMap<>();
     }
-
+      
     public Model_File addFileReceiver(String fileExtension) throws SQLException {
         Model_File data;
         PreparedStatement p = con.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -60,6 +62,38 @@ public class ServiceFile {
         fileReceivers.put(file.getFileID(), new Model_File_Receiver(message, toFileObject(file)));
     }
 
+     public Model_File getFile(int fileID) throws SQLException {
+        PreparedStatement p = con.prepareStatement(GET_FILE_EXTENSION);
+        p.setInt(1, fileID);
+        ResultSet r = p.executeQuery();
+        r.first();
+        String fileExtension = r.getString(1);
+        Model_File data = new Model_File(fileID, fileExtension);
+        r.close();
+        p.close();
+        return data;
+    }
+
+    public synchronized Model_File initFile(int fileID) throws IOException, SQLException {
+        Model_File file;
+        if (!fileSenders.containsKey(fileID)) {
+            file = getFile(fileID);
+            fileSenders.put(fileID, new Model_File_Sender(file, new File(PATH_FILE + fileID + file.getFileExtension())));
+        } else {
+            file = fileSenders.get(fileID).getData();
+        }
+        return file;
+    }
+
+    public byte[] getFileData(long currentLength, int fileID) throws IOException, SQLException {
+        initFile(fileID);
+        return fileSenders.get(fileID).read(currentLength);
+    }
+
+    public long getFileSize(int fileID) {
+        return fileSenders.get(fileID).getFileSize();
+    }
+    
     public void receiveFile(Model_Package_Sender dataPackage) throws IOException {
         if (!dataPackage.isFinish()) {
             fileReceivers.get(dataPackage.getFileID()).writeFile(dataPackage.getData());
@@ -111,12 +145,12 @@ public class ServiceFile {
         return new File(PATH_FILE + file.getFileID() + file.getFileExtension());
     }
 
-    //  SQL
-    private final String PATH_FILE = "server_data/";
+     private final String PATH_FILE = "server_data/";
     private final String INSERT = "insert into files (FileExtension) values (?)";
     private final String UPDATE_BLUR_HASH_DONE = "update files set BlurHash=?, `Status`='1' where FileID=? limit 1";
     private final String UPDATE_DONE = "update files set `Status`='1' where FileID=? limit 1";
-    //  Instance
+    private final String GET_FILE_EXTENSION = "select FileExtension from files where FileID=? limit 1";
     private final Connection con;
     private final Map<Integer, Model_File_Receiver> fileReceivers;
+    private final Map<Integer, Model_File_Sender> fileSenders;
 }
