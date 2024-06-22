@@ -1,7 +1,12 @@
 package chatapplication.component;
+import chatapplication.app.MessageType;
 import chatapplication.emoji.Emoji;
 import chatapplication.emoji.Model_Emoji;
+import chatapplication.event.PublicEvent;
 import chatapplication.main.Main;
+import chatapplication.model.Model_Send_Message;
+import chatapplication.model.Model_User_Account;
+import chatapplication.service.Service;
 import chatapplication.swing.ScrollBar;
 import chatapplication.swing.WrapLayout;
 import java.awt.Component;
@@ -19,6 +24,16 @@ import net.miginfocom.swing.MigLayout;
 
 public class Panel_More extends javax.swing.JPanel {
 
+    public Model_User_Account getUser() {
+        return user;
+    }
+
+    public void setUser(Model_User_Account user) {
+        this.user = user;
+    }
+
+    private Model_User_Account user;
+
     public Panel_More() {
         initComponents();
         init();
@@ -33,11 +48,12 @@ public class Panel_More extends javax.swing.JPanel {
         panelHeader.add(getEmojiStyle2());
         add(panelHeader, "w 100%, h 30!, wrap");
         panelDetail = new JPanel();
-        panelDetail.setLayout(new WrapLayout(WrapLayout.LEFT)); 
+        panelDetail.setLayout(new WrapLayout(WrapLayout.LEFT));    //  use warp layout
         JScrollPane ch = new JScrollPane(panelDetail);
         ch.setBorder(null);
         ch.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         ch.setVerticalScrollBar(new ScrollBar());
+        //  test color
         add(ch, "w 100%, h 100%");
     }
 
@@ -65,12 +81,7 @@ public class Panel_More extends javax.swing.JPanel {
                 cmd.setSelected(true);
                 panelDetail.removeAll();
                 for (Model_Emoji d : Emoji.getInstance().getStyle1()) {
-                    JButton c = new JButton(d.getIcon());
-                    c.setName(d.getId() + "");
-                    c.setBorder(new EmptyBorder(3, 3, 3, 3));
-                    c.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    c.setContentAreaFilled(false);
-                    panelDetail.add(c);
+                    panelDetail.add(getButton(d));
                 }
                 panelDetail.repaint();
                 panelDetail.revalidate();
@@ -89,18 +100,34 @@ public class Panel_More extends javax.swing.JPanel {
                 cmd.setSelected(true);
                 panelDetail.removeAll();
                 for (Model_Emoji d : Emoji.getInstance().getStyle2()) {
-                    JButton c = new JButton(d.getIcon());
-                    c.setName(d.getId() + "");
-                    c.setBorder(new EmptyBorder(3, 3, 3, 3));
-                    c.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    c.setContentAreaFilled(false);
-                    panelDetail.add(c);
+                    panelDetail.add(getButton(d));
                 }
                 panelDetail.repaint();
                 panelDetail.revalidate();
             }
         });
         return cmd;
+    }
+
+    private JButton getButton(Model_Emoji data) {
+        JButton cmd = new JButton(data.getIcon());
+        cmd.setName(data.getId() + "");
+        cmd.setBorder(new EmptyBorder(3, 3, 3, 3));
+        cmd.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cmd.setContentAreaFilled(false);
+        cmd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                Model_Send_Message message = new Model_Send_Message(MessageType.EMOJI, Service.getInstance().getUser().getUserID(), user.getUserID(), data.getId() + "");
+                sendMessage(message);
+                PublicEvent.getInstance().getEventChat().sendMessage(message);
+            }
+        });
+        return cmd;
+    }
+
+    private void sendMessage(Model_Send_Message data) {
+        Service.getInstance().getClient().emit("send_to_user", data.toJsonObject());
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

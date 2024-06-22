@@ -1,5 +1,5 @@
-
 package chatapplication.component;
+import chatapplication.app.MessageType;
 import chatapplication.event.PublicEvent;
 import chatapplication.model.Model_Send_Message;
 import chatapplication.model.Model_User_Account;
@@ -22,13 +22,14 @@ import net.miginfocom.swing.MigLayout;
 
 
 public class Chat_Bottom extends javax.swing.JPanel {
-    
- public Model_User_Account getUser() {
+
+    public Model_User_Account getUser() {
         return user;
     }
 
     public void setUser(Model_User_Account user) {
         this.user = user;
+        panelMore.setUser(user);
     }
 
     private Model_User_Account user;
@@ -48,8 +49,9 @@ public class Chat_Bottom extends javax.swing.JPanel {
             @Override
             public void keyTyped(KeyEvent ke) {
                 refresh();
-                if(ke.getKeyChar()== 10 && ke.isControlDown()){
-                    
+                if (ke.getKeyChar() == 10 && ke.isControlDown()) {
+                    //  user press controll + enter
+                    eventSend(txt);
                 }
             }
         });
@@ -74,10 +76,10 @@ public class Chat_Bottom extends javax.swing.JPanel {
         cmd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-              eventSend(txt);
+                eventSend(txt);
             }
         });
-         JButton cmdMore = new JButton();
+        JButton cmdMore = new JButton();
         cmdMore.setBorder(null);
         cmdMore.setContentAreaFilled(false);
         cmdMore.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -85,51 +87,48 @@ public class Chat_Bottom extends javax.swing.JPanel {
         cmdMore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                if(panelMore.isVisible()){
+                if (panelMore.isVisible()) {
                     cmdMore.setIcon(new ImageIcon(getClass().getResource("/chatapplication/icon/more_disable.png")));
                     panelMore.setVisible(false);
-                    mig.setComponentConstraints(panelMore,"dock south,h 0!");
+                    mig.setComponentConstraints(panelMore, "dock south,h 0!");
                     revalidate();
-                }else {
-                     cmdMore.setIcon(new ImageIcon(getClass().getResource("/chatapplication/icon/more.png")));
+                } else {
+                    cmdMore.setIcon(new ImageIcon(getClass().getResource("/chatapplication/icon/more.png")));
                     panelMore.setVisible(true);
-                    mig.setComponentConstraints(panelMore,"dock south,h 170!");
+                    mig.setComponentConstraints(panelMore, "dock south,h 170!");
                     revalidate();
-                    
                 }
             }
         });
         panel.add(cmdMore);
         panel.add(cmd);
-        add(panel,"wrap");
+        add(panel, "wrap");
         panelMore = new Panel_More();
         panelMore.setVisible(false);
-        add(panelMore,"dock south,h 0!");
+        add(panelMore, "dock south,h 0!");  //  set height 0
     }
-    
-    private void eventSend(JIMSendTextPane txt){
-          String text = txt.getText().trim();
-                if (!text.equals("")) {
-                    Model_Send_Message message = new Model_Send_Message(Service.getInstance().getUser().getUserID(),user.getUserID(),text);
-                    send(message);
-                    PublicEvent.getInstance().getEventChat().sendMessage(message);
-                    txt.setText("");
-                    txt.grabFocus();
-                    refresh();
-                } else {
-                    txt.grabFocus();
-                }
-        
+
+    private void eventSend(JIMSendTextPane txt) {
+        String text = txt.getText().trim();
+        if (!text.equals("")) {
+            Model_Send_Message message = new Model_Send_Message(MessageType.TEXT, Service.getInstance().getUser().getUserID(), user.getUserID(), text);
+            send(message);
+            PublicEvent.getInstance().getEventChat().sendMessage(message);
+            txt.setText("");
+            txt.grabFocus();
+            refresh();
+        } else {
+            txt.grabFocus();
+        }
     }
-    private void send(Model_Send_Message data){
+
+    private void send(Model_Send_Message data) {
         Service.getInstance().getClient().emit("send_to_user", data.toJsonObject());
     }
 
     private void refresh() {
         revalidate();
     }
-
-
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
