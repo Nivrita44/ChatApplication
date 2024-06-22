@@ -3,6 +3,15 @@ package chatapplication.model;
 
 public class Model_Send_Message {
 
+
+    public int getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(int messageType) {
+        this.messageType = messageType;
+    }
+
     public int getFromUserID() {
         return fromUserID;
     }
@@ -27,7 +36,8 @@ public class Model_Send_Message {
         this.text = text;
     }
 
-    public Model_Send_Message(int fromUserID, int toUserID, String text) {
+    public Model_Send_Message(int messageType, int fromUserID, int toUserID, String text) {
+        this.messageType = messageType;
         this.fromUserID = fromUserID;
         this.toUserID = toUserID;
         this.text = text;
@@ -36,6 +46,7 @@ public class Model_Send_Message {
     public Model_Send_Message() {
     }
 
+    private int messageType;
     private int fromUserID;
     private int toUserID;
     private String text;
